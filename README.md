@@ -1,4 +1,8 @@
-UIKit-Blocks
+UIKit+Blocks
 ============
 
-Various UIKit classes that have been extended to use blocks
+Various UIKit classes whose delegates have been replaced with blocks:
+
+* `UIAlertView`
+* `UIActionSheet`
+* `CAAnimation`
