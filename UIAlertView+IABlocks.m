@@ -113,7 +113,7 @@
 }
 
 - (IAAlertViewHandler)cancelHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView cancelHandler];
     else
@@ -121,13 +121,13 @@
 }
 
 - (void)setCancelHandler:(IAAlertViewHandler)cancelHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setCancelHandler:cancelHandler];
 }
 
 - (BOOL (^)(UIAlertView*))shouldEnableFirstOtherButtonHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView shouldEnableFirstOtherButtonHandler];
     else
@@ -135,13 +135,13 @@
 }
 
 - (void)setShouldEnableFirstOtherButtonHandler:(BOOL (^)(UIAlertView*))shouldEnableFirstOtherButtonHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setShouldEnableFirstOtherButtonHandler:shouldEnableFirstOtherButtonHandler];
 }
 
 - (IAAlertViewHandler)buttonHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView buttonHandler];
     else
@@ -149,13 +149,13 @@
 }
 
 - (void)setButtonHandler:(IAAlertViewHandler)buttonHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setButtonHandler:buttonHandler];
 }
 
 - (IAAlertViewHandler)willPresentHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView willPresentHandler];
     else
@@ -163,13 +163,13 @@
 }
 
 - (void)setWillPresentHandler:(IAAlertViewHandler)presentHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setWillPresentHandler:presentHandler];
 }
 
 - (IAAlertViewHandler)didPresentHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView didPresentHandler];
     else
@@ -177,13 +177,13 @@
 }
 
 - (void)setDidPresentHandler:(IAAlertViewHandler)presentHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setDidPresentHandler:presentHandler];
 }
 
 - (IAAlertViewHandler)willDismissHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView willDismissHandler];
     else
@@ -191,13 +191,13 @@
 }
 
 - (void)setWillDismissHandler:(IAAlertViewHandler)dismissHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setWillDismissHandler:dismissHandler];
 }
 
 - (IAAlertViewHandler)didDismissHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView didDismissHandler];
     else
@@ -205,7 +205,7 @@
 }
 
 - (void)setDidDismissHandler:(IAAlertViewHandler)dismissHandler {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setDidDismissHandler:dismissHandler];
 }
@@ -215,7 +215,7 @@
 #pragma mark Public methods
 
 - (IAAlertViewHandler)handlerForButtonAtIndex:(NSInteger)buttonIndex {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView handlerForButtonAtIndex:buttonIndex];
     else
@@ -223,9 +223,20 @@
 }
 
 - (void)setHandler:(IAAlertViewHandler)handler forButtonAtIndex:(NSInteger)buttonIndex {
-    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    IAAlertViewBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setHandler:handler forButtonAtIndex:buttonIndex];
+}
+
+
+#pragma mark -
+#pragma mark Private methods
+
+- (IAAlertViewBlocksView*)findBlocksView {
+    IAAlertViewBlocksView* blocksView = (IAAlertViewBlocksView*)[self viewWithTag:IAAlertViewBlocksViewTag];
+    if (!blocksView)
+        NSLog(@"WARNING: Blocks are currently not enabled for %@. Either use initWithTitle:message:cancelButtonTitle:otherButtonTitles: or call setBlocksEnabled:YES.", self);
+    return blocksView;
 }
 
 @end

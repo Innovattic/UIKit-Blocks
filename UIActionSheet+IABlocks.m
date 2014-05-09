@@ -116,7 +116,7 @@
 }
 
 - (IAActionSheetHandler)cancelHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView cancelHandler];
     else
@@ -124,13 +124,13 @@
 }
 
 - (void)setCancelHandler:(IAActionSheetHandler)cancelHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setCancelHandler:cancelHandler];
 }
 
 - (IAActionSheetHandler)buttonHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView buttonHandler];
     else
@@ -138,13 +138,13 @@
 }
 
 - (void)setButtonHandler:(IAActionSheetHandler)buttonHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setButtonHandler:buttonHandler];
 }
 
 - (IAActionSheetHandler)willPresentHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView willPresentHandler];
     else
@@ -152,13 +152,13 @@
 }
 
 - (void)setWillPresentHandler:(IAActionSheetHandler)presentHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setWillPresentHandler:presentHandler];
 }
 
 - (IAActionSheetHandler)didPresentHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView didPresentHandler];
     else
@@ -166,13 +166,13 @@
 }
 
 - (void)setDidPresentHandler:(IAActionSheetHandler)presentHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setDidPresentHandler:presentHandler];
 }
 
 - (IAActionSheetHandler)willDismissHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView willDismissHandler];
     else
@@ -180,13 +180,13 @@
 }
 
 - (void)setWillDismissHandler:(IAActionSheetHandler)dismissHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setWillDismissHandler:dismissHandler];
 }
 
 - (IAActionSheetHandler)didDismissHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView didDismissHandler];
     else
@@ -194,7 +194,7 @@
 }
 
 - (void)setDidDismissHandler:(IAActionSheetHandler)dismissHandler {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setDidDismissHandler:dismissHandler];
 }
@@ -204,7 +204,7 @@
 #pragma mark Public methods
 
 - (IAActionSheetHandler)handlerForButtonAtIndex:(NSInteger)buttonIndex {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         return [blocksView handlerForButtonAtIndex:buttonIndex];
     else
@@ -212,9 +212,20 @@
 }
 
 - (void)setHandler:(IAActionSheetHandler)handler forButtonAtIndex:(NSInteger)buttonIndex {
-    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    IAActionSheetBlocksView* blocksView = [self findBlocksView];
     if (blocksView)
         [blocksView setHandler:handler forButtonAtIndex:buttonIndex];
+}
+
+
+#pragma mark -
+#pragma mark Private methods
+
+- (IAActionSheetBlocksView*)findBlocksView {
+    IAActionSheetBlocksView* blocksView = (IAActionSheetBlocksView*)[self viewWithTag:IAActionSheetBlocksViewTag];
+    if (!blocksView)
+        NSLog(@"WARNING: Blocks are currently not enabled for %@. Either use initWithTitle:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles: or call setBlocksEnabled:YES.", self);
+    return blocksView;
 }
 
 @end
